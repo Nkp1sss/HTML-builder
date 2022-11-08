@@ -9,15 +9,15 @@ const finalPath = path.join(__dirname, 'project-dist');
 (async function mergeStyles() {
     try {
         const output = createWriteStream(path.join(finalPath, 'bundle.css'));
-        
+
         const files = await fs.readdir(sourcePath);
 
         for (const file of files) {
             const pathToFile = path.join(sourcePath, file);
             const stats = await fs.stat(pathToFile);
             if (stats.isFile() && path.extname(pathToFile) == '.css') {
-                const input = createReadStream(pathToFile, 'utf-8');
-                input.pipe(output);
+                const input = await fs.readFile(pathToFile, 'utf-8');
+                output.write(input);
             }
         };
     } catch (err) {
