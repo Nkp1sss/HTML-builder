@@ -13,3 +13,7 @@ stdin.on('data', data => {
 });
 
 process.on('exit', () => stdout.write('Пока..'));
+
+process.on('SIGINT', function () {
+    process.exit();
+});
